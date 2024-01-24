@@ -2,25 +2,22 @@
   position: absolute;
   width: 560px;
   height: 300px;
-  border: solid black 1px;
-}
-
-.block {
-  position: absolute;
-  left: 50px;
-  bottom: 50px;
-  width: 100px;
-  height: 20px;
-  background-color: rgb(51, 51, 51);
+  border: solid 1px black;
+  margin-top: 100px;
 }
 
 .user {
   position: absolute;
-  left: 50px;
-  bottom: 50px;
   width: 100px;
   height: 20px;
   background-color: rgb(255, 52, 52);
+}
+
+.block {
+  position: absolute;
+  width: 100px;
+  height: 20px;
+  background-color: rgb(51, 51, 51);
 }
 
 .ball {

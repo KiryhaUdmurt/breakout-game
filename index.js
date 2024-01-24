@@ -15,7 +15,7 @@ const userStartPos = [230, 10];
 let userCurrentPos = userStartPos;
 
 const ballStartPos = [270, 40];
-const ballCurrentPos = ballStartPos;
+let ballCurrentPos = ballStartPos;
 
 class Block {
   constructor(xAxis, yAxis) {
@@ -59,13 +59,13 @@ addBlocks();
 // Добавление юзера
 const user = document.createElement("div");
 user.classList.add("user");
-drawUser();
 grid.appendChild(user);
+drawUser();
 
 // Нарисовать юзера
 function drawUser() {
   user.style.left = userCurrentPos[0] + "px";
-  user.style.right = userCurrentPos[1] + "px";
+  user.style.bottom = userCurrentPos[1] + "px";
 }
 
 // Нарисовать шарик
@@ -89,8 +89,6 @@ function moveUser(e) {
         drawUser();
       }
       break;
-    // default:
-    //   break;
   }
 }
 
@@ -99,8 +97,8 @@ document.addEventListener("keydown", moveUser);
 // Добавить шарик
 const ball = document.createElement("div");
 ball.classList.add("ball");
-drawBall();
 grid.appendChild(ball);
+drawBall();
 
 // Двигать шарик
 function moveBall() {
@@ -110,7 +108,7 @@ function moveBall() {
   checkForCollisions();
 }
 
-timerId = setInterval(moveBall, 30);
+timerId = setInterval(moveBall, 20);
 
 // Проверка на столкновение
 function checkForCollisions() {
@@ -129,6 +127,13 @@ function checkForCollisions() {
 
       score++;
       scoreDisplay.innerHTML = score;
+
+      // Прверка на победу
+      if (blocks.length === 0) {
+        scoreDisplay.innerHTML = "Вы победили!!!";
+        clearInterval(timerId);
+        document.removeEventListener("keydown", moveUser);
+      }
     }
   }
 
@@ -141,10 +146,20 @@ function checkForCollisions() {
     changeDirection();
   }
 
-  // Гейм овер
+  // Столкновение с игроком
+  if (
+    ballCurrentPos[0] > userCurrentPos[0] &&
+    ballCurrentPos[0] < userCurrentPos[0] + blockWidth &&
+    ballCurrentPos[1] > userCurrentPos[1] &&
+    ballCurrentPos[1] < userCurrentPos[1] + blockHeight
+  ) {
+    changeDirection();
+  }
+
   if (ballCurrentPos[1] <= 0) {
+    // Гейм овер
     clearInterval(timerId);
-    scoreDisplay.innerHTML = "You lose";
+    scoreDisplay.innerHTML = "Вы проиграли";
     document.removeEventListener("keydown", moveUser);
   }
 }
